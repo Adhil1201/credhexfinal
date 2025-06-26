@@ -17,23 +17,82 @@ function Header({ user, onLogout }) {
         alignItems: 'center',
         minHeight: '48px'
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <img 
-            src="https://images.pexels.com/photos/6801648/pexels-photo-6801648.jpeg?auto=compress&cs=tinysrgb&w=64&h=64&fit=crop"
-            alt="CredHex Logo"
-            style={{
-              width: '32px',
-              height: '32px',
-              borderRadius: '8px',
-              objectFit: 'cover'
-            }}
-          />
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <div style={{
+            width: '40px',
+            height: '40px',
+            background: 'linear-gradient(135deg, #3B82F6, #1D4ED8)',
+            borderRadius: '12px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            boxShadow: '0 4px 12px rgba(59, 130, 246, 0.3)',
+            position: 'relative'
+          }}>
+            <div style={{
+              width: '24px',
+              height: '24px',
+              background: 'white',
+              borderRadius: '4px',
+              position: 'relative',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}>
+              <div style={{
+                width: '16px',
+                height: '16px',
+                background: 'linear-gradient(135deg, #3B82F6, #1D4ED8)',
+                borderRadius: '2px',
+                position: 'relative'
+              }}>
+                <div style={{
+                  position: 'absolute',
+                  top: '2px',
+                  left: '2px',
+                  right: '2px',
+                  height: '2px',
+                  background: 'white',
+                  borderRadius: '1px'
+                }}></div>
+                <div style={{
+                  position: 'absolute',
+                  top: '6px',
+                  left: '2px',
+                  right: '2px',
+                  height: '1px',
+                  background: 'rgba(255, 255, 255, 0.7)',
+                  borderRadius: '0.5px'
+                }}></div>
+                <div style={{
+                  position: 'absolute',
+                  top: '9px',
+                  left: '2px',
+                  right: '2px',
+                  height: '1px',
+                  background: 'rgba(255, 255, 255, 0.7)',
+                  borderRadius: '0.5px'
+                }}></div>
+                <div style={{
+                  position: 'absolute',
+                  bottom: '2px',
+                  right: '2px',
+                  width: '4px',
+                  height: '4px',
+                  background: 'white',
+                  borderRadius: '50%',
+                  border: '1px solid #3B82F6'
+                }}></div>
+              </div>
+            </div>
+          </div>
           <h1 style={{ 
             fontSize: '20px', 
             fontWeight: '700',
             background: 'linear-gradient(135deg, #3B82F6, #1D4ED8)',
             WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent'
+            WebkitTextFillColor: 'transparent',
+            margin: 0
           }}>
             CredHex
           </h1>
