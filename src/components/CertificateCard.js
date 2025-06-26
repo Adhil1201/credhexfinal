@@ -37,102 +37,192 @@ function CertificateCard({ certificate, userId, onDelete }) {
   const certificateUrl = `https://broseasswahrbiglvplk.supabase.co/storage/v1/object/public/certificates/${userId}/${certificate.name}`;
 
   return (
-    <div className="card fade-in" style={{
-      padding: '20px',
+    <div className="card fade-in certificate-card" style={{
+      padding: '16px',
       transition: 'all 0.2s ease',
       cursor: 'pointer'
-    }}
-    onMouseEnter={(e) => {
-      e.currentTarget.style.transform = 'translateY(-4px)';
-      e.currentTarget.style.boxShadow = '0 25px 50px -12px rgba(0, 0, 0, 0.25)';
-    }}
-    onMouseLeave={(e) => {
-      e.currentTarget.style.transform = 'translateY(0)';
-      e.currentTarget.style.boxShadow = '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)';
     }}>
-      <div style={{ display: 'flex', alignItems: 'flex-start', gap: '16px' }}>
-        <div style={{
-          background: 'linear-gradient(135deg, #3B82F6, #1D4ED8)',
-          borderRadius: '12px',
-          padding: '12px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          minWidth: '48px',
-          height: '48px'
+      <div style={{ 
+        display: 'flex', 
+        alignItems: 'flex-start', 
+        gap: '12px',
+        flexDirection: 'column'
+      }} className="card-content">
+        <div style={{ 
+          display: 'flex', 
+          alignItems: 'center', 
+          gap: '12px',
+          width: '100%'
         }}>
-          <span className="material-icons" style={{ color: 'white', fontSize: '24px' }}>
-            {getFileIcon(certificate.name)}
-          </span>
+          <div style={{
+            background: 'linear-gradient(135deg, #3B82F6, #1D4ED8)',
+            borderRadius: '10px',
+            padding: '10px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            minWidth: '40px',
+            height: '40px',
+            flexShrink: 0
+          }}>
+            <span className="material-icons" style={{ color: 'white', fontSize: '20px' }}>
+              {getFileIcon(certificate.name)}
+            </span>
+          </div>
+          
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <h3 style={{ 
+              fontSize: '14px', 
+              fontWeight: '600', 
+              marginBottom: '4px',
+              wordBreak: 'break-word',
+              lineHeight: '1.3'
+            }}>
+              {certificate.name}
+            </h3>
+            
+            <div style={{ 
+              display: 'flex', 
+              gap: '12px', 
+              marginBottom: '8px',
+              flexWrap: 'wrap'
+            }}>
+              <span style={{ fontSize: '11px', color: '#6B7280' }}>
+                <span className="material-icons" style={{ fontSize: '12px', verticalAlign: 'middle', marginRight: '2px' }}>
+                  storage
+                </span>
+                {formatFileSize(certificate.metadata?.size || 0)}
+              </span>
+              <span style={{ fontSize: '11px', color: '#6B7280' }}>
+                <span className="material-icons" style={{ fontSize: '12px', verticalAlign: 'middle', marginRight: '2px' }}>
+                  schedule
+                </span>
+                {formatDate(certificate.created_at)}
+              </span>
+            </div>
+          </div>
         </div>
         
-        <div style={{ flex: 1, minWidth: 0 }}>
-          <h3 style={{ 
-            fontSize: '16px', 
-            fontWeight: '600', 
-            marginBottom: '4px',
-            wordBreak: 'break-word'
-          }}>
-            {certificate.name}
-          </h3>
+        <div className="btn-group" style={{ 
+          display: 'flex', 
+          gap: '6px', 
+          width: '100%',
+          flexWrap: 'wrap'
+        }}>
+          <a
+            href={certificateUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="btn btn-primary"
+            style={{ 
+              fontSize: '11px', 
+              padding: '8px 12px',
+              flex: '1',
+              minWidth: '80px'
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <span className="material-icons" style={{ fontSize: '14px' }}>visibility</span>
+            <span>View</span>
+          </a>
           
-          <div style={{ display: 'flex', gap: '16px', marginBottom: '12px' }}>
-            <span style={{ fontSize: '12px', color: '#6B7280' }}>
-              <span className="material-icons" style={{ fontSize: '14px', verticalAlign: 'middle', marginRight: '4px' }}>
-                storage
-              </span>
-              {formatFileSize(certificate.metadata?.size || 0)}
-            </span>
-            <span style={{ fontSize: '12px', color: '#6B7280' }}>
-              <span className="material-icons" style={{ fontSize: '14px', verticalAlign: 'middle', marginRight: '4px' }}>
-                schedule
-              </span>
-              {formatDate(certificate.created_at)}
-            </span>
-          </div>
+          <a
+            href={certificateUrl}
+            download={certificate.name}
+            className="btn btn-secondary"
+            style={{ 
+              fontSize: '11px', 
+              padding: '8px 12px',
+              flex: '1',
+              minWidth: '80px'
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <span className="material-icons" style={{ fontSize: '14px' }}>download</span>
+            <span>Download</span>
+          </a>
           
-          <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-            <a
-              href={certificateUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="btn btn-primary"
-              style={{ fontSize: '12px', padding: '8px 16px' }}
-              onClick={(e) => e.stopPropagation()}
+          {onDelete && (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                if (window.confirm('Are you sure you want to delete this certificate?')) {
+                  onDelete(certificate.name);
+                }
+              }}
+              className="btn btn-danger"
+              style={{ 
+                fontSize: '11px', 
+                padding: '8px 12px',
+                flex: '1',
+                minWidth: '80px'
+              }}
             >
-              <span className="material-icons" style={{ fontSize: '16px' }}>visibility</span>
-              View
-            </a>
-            
-            <a
-              href={certificateUrl}
-              download={certificate.name}
-              className="btn btn-secondary"
-              style={{ fontSize: '12px', padding: '8px 16px' }}
-              onClick={(e) => e.stopPropagation()}
-            >
-              <span className="material-icons" style={{ fontSize: '16px' }}>download</span>
-              Download
-            </a>
-            
-            {onDelete && (
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  if (window.confirm('Are you sure you want to delete this certificate?')) {
-                    onDelete(certificate.name);
-                  }
-                }}
-                className="btn btn-danger"
-                style={{ fontSize: '12px', padding: '8px 16px' }}
-              >
-                <span className="material-icons" style={{ fontSize: '16px' }}>delete</span>
-                Delete
-              </button>
-            )}
-          </div>
+              <span className="material-icons" style={{ fontSize: '14px' }}>delete</span>
+              <span>Delete</span>
+            </button>
+          )}
         </div>
       </div>
+      
+      <style jsx>{`
+        @media (min-width: 640px) {
+          .certificate-card {
+            padding: 20px !important;
+          }
+          
+          .card-content {
+            flex-direction: row !important;
+          }
+          
+          .card-content > div:first-child {
+            flex: 1;
+          }
+          
+          .btn-group {
+            width: auto !important;
+            flex-shrink: 0;
+          }
+          
+          .btn {
+            flex: none !important;
+            min-width: auto !important;
+            font-size: 12px !important;
+            padding: 8px 16px !important;
+          }
+          
+          h3 {
+            font-size: 16px !important;
+          }
+          
+          .material-icons {
+            font-size: 16px !important;
+          }
+          
+          span[style*="font-size: 11px"] {
+            font-size: 12px !important;
+          }
+          
+          span[style*="font-size: 12px"] {
+            font-size: 14px !important;
+          }
+        }
+        
+        .certificate-card:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+        
+        @media (max-width: 639px) {
+          .btn-group {
+            flex-direction: column;
+          }
+          
+          .btn-group .btn {
+            width: 100%;
+          }
+        }
+      `}</style>
     </div>
   );
 }

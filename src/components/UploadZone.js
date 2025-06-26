@@ -32,14 +32,20 @@ function UploadZone({ onUpload, isUploading }) {
   return (
     <div className="card">
       <div
+        className="upload-zone"
         style={{
           border: `2px dashed ${dragActive ? '#3B82F6' : '#D1D5DB'}`,
           borderRadius: '12px',
-          padding: '40px 20px',
+          padding: '24px 16px',
           textAlign: 'center',
           transition: 'all 0.2s ease',
           background: dragActive ? 'rgba(59, 130, 246, 0.05)' : 'transparent',
-          position: 'relative'
+          position: 'relative',
+          minHeight: '120px',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center'
         }}
         onDragEnter={handleDrag}
         onDragLeave={handleDrag}
@@ -64,18 +70,18 @@ function UploadZone({ onUpload, isUploading }) {
         
         <div style={{ pointerEvents: 'none' }}>
           <span className="material-icons" style={{ 
-            fontSize: '48px', 
+            fontSize: '36px', 
             color: dragActive ? '#3B82F6' : '#9CA3AF',
-            marginBottom: '16px',
+            marginBottom: '12px',
             display: 'block'
           }}>
             {isUploading ? 'hourglass_empty' : 'cloud_upload'}
           </span>
           
           <h3 style={{ 
-            fontSize: '18px', 
+            fontSize: '16px', 
             fontWeight: '600', 
-            marginBottom: '8px',
+            marginBottom: '6px',
             color: dragActive ? '#3B82F6' : '#374151'
           }}>
             {isUploading ? 'Uploading...' : 'Upload Certificate'}
@@ -83,22 +89,58 @@ function UploadZone({ onUpload, isUploading }) {
           
           <p style={{ 
             color: '#6B7280', 
-            fontSize: '14px',
-            marginBottom: '16px'
+            fontSize: '12px',
+            marginBottom: '12px',
+            lineHeight: '1.4'
           }}>
             {isUploading 
               ? 'Please wait while your certificate is being uploaded'
-              : 'Drag and drop your certificate here, or click to browse'
+              : 'Drag and drop your certificate here, or tap to browse'
             }
           </p>
           
           {!isUploading && (
-            <div style={{ fontSize: '12px', color: '#9CA3AF' }}>
-              Supported formats: PDF, JPG, PNG, DOC, DOCX
+            <div style={{ fontSize: '10px', color: '#9CA3AF' }}>
+              Supported: PDF, JPG, PNG, DOC, DOCX
             </div>
           )}
         </div>
       </div>
+      
+      <style jsx>{`
+        @media (min-width: 640px) {
+          .upload-zone {
+            padding: 40px 20px !important;
+            min-height: 160px !important;
+          }
+          
+          .material-icons {
+            font-size: 48px !important;
+            margin-bottom: 16px !important;
+          }
+          
+          h3 {
+            font-size: 18px !important;
+            margin-bottom: 8px !important;
+          }
+          
+          p {
+            font-size: 14px !important;
+            margin-bottom: 16px !important;
+          }
+          
+          div[style*="font-size: 10px"] {
+            font-size: 12px !important;
+          }
+        }
+        
+        @media (hover: hover) {
+          .upload-zone:hover {
+            border-color: #3B82F6;
+            background: rgba(59, 130, 246, 0.02);
+          }
+        }
+      `}</style>
     </div>
   );
 }

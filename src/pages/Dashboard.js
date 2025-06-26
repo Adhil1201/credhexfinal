@@ -138,19 +138,20 @@ function Dashboard() {
           display: 'flex', 
           alignItems: 'center', 
           justifyContent: 'center',
-          minHeight: 'calc(100vh - 80px)'
+          minHeight: 'calc(100vh - 80px)',
+          padding: '20px'
         }}>
           <div style={{ textAlign: 'center' }}>
             <span className="material-icons" style={{ 
-              fontSize: '48px', 
+              fontSize: '36px', 
               color: '#3B82F6',
-              marginBottom: '16px',
+              marginBottom: '12px',
               display: 'block',
               animation: 'spin 1s linear infinite'
             }}>
               hourglass_empty
             </span>
-            <p style={{ color: '#6B7280' }}>Loading your certificates...</p>
+            <p style={{ color: '#6B7280', fontSize: '14px' }}>Loading your certificates...</p>
           </div>
         </div>
       </div>
@@ -161,47 +162,51 @@ function Dashboard() {
     <div style={{ minHeight: '100vh' }}>
       <Header user={user} onLogout={handleLogout} />
       
-      <div className="container" style={{ padding: '40px 20px' }}>
+      <div className="container dashboard-container" style={{ padding: '20px 16px' }}>
         <div className="fade-in">
-          <div style={{ marginBottom: '32px' }}>
+          <div style={{ marginBottom: '24px' }}>
             <h1 style={{ 
-              fontSize: '32px', 
+              fontSize: '24px', 
               fontWeight: '700', 
-              marginBottom: '8px',
+              marginBottom: '6px',
               background: 'linear-gradient(135deg, #3B82F6, #1D4ED8)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent'
             }}>
               Certificate Vault
             </h1>
-            <p style={{ color: '#6B7280', fontSize: '16px' }}>
+            <p style={{ color: '#6B7280', fontSize: '14px' }}>
               Securely store and manage your digital certificates
             </p>
           </div>
 
           <UploadZone onUpload={handleUpload} isUploading={isUploading} />
 
-          <div className="card" style={{ marginTop: '32px' }}>
-            <div style={{ 
+          <div className="card" style={{ marginTop: '24px' }}>
+            <div className="certificates-header" style={{ 
               display: 'flex', 
               justifyContent: 'space-between', 
               alignItems: 'center',
-              marginBottom: '24px',
+              marginBottom: '20px',
               flexWrap: 'wrap',
-              gap: '16px'
+              gap: '12px'
             }}>
-              <h2 style={{ fontSize: '20px', fontWeight: '600' }}>
+              <h2 style={{ 
+                fontSize: '18px', 
+                fontWeight: '600',
+                margin: 0
+              }}>
                 Your Certificates ({filteredCertificates.length})
               </h2>
               
-              <div style={{ position: 'relative', minWidth: '250px' }}>
+              <div style={{ position: 'relative', width: '100%', maxWidth: '250px' }}>
                 <span className="material-icons" style={{
                   position: 'absolute',
                   left: '12px',
                   top: '50%',
                   transform: 'translateY(-50%)',
                   color: '#9CA3AF',
-                  fontSize: '20px'
+                  fontSize: '18px'
                 }}>
                   search
                 </span>
@@ -211,7 +216,7 @@ function Dashboard() {
                   placeholder="Search certificates..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  style={{ paddingLeft: '44px' }}
+                  style={{ paddingLeft: '40px', fontSize: '14px' }}
                 />
               </div>
             </div>
@@ -219,21 +224,21 @@ function Dashboard() {
             {filteredCertificates.length === 0 ? (
               <div style={{ 
                 textAlign: 'center', 
-                padding: '60px 20px',
+                padding: '40px 20px',
                 color: '#6B7280'
               }}>
                 <span className="material-icons" style={{ 
-                  fontSize: '64px', 
+                  fontSize: '48px', 
                   color: '#D1D5DB',
-                  marginBottom: '16px',
+                  marginBottom: '12px',
                   display: 'block'
                 }}>
                   {searchTerm ? 'search_off' : 'folder_open'}
                 </span>
-                <h3 style={{ fontSize: '18px', fontWeight: '500', marginBottom: '8px' }}>
+                <h3 style={{ fontSize: '16px', fontWeight: '500', marginBottom: '6px' }}>
                   {searchTerm ? 'No certificates found' : 'No certificates yet'}
                 </h3>
-                <p>
+                <p style={{ fontSize: '14px' }}>
                   {searchTerm 
                     ? 'Try adjusting your search terms'
                     : 'Upload your first certificate to get started'
@@ -255,6 +260,48 @@ function Dashboard() {
           </div>
         </div>
       </div>
+      
+      <style jsx>{`
+        @media (min-width: 640px) {
+          .dashboard-container {
+            padding: 40px 20px !important;
+          }
+          
+          h1 {
+            font-size: 32px !important;
+            margin-bottom: 8px !important;
+          }
+          
+          p {
+            font-size: 16px !important;
+          }
+          
+          h2 {
+            font-size: 20px !important;
+          }
+          
+          .certificates-header {
+            margin-bottom: 24px !important;
+            gap: 16px !important;
+          }
+          
+          .certificates-header > div {
+            width: auto !important;
+            min-width: 250px;
+          }
+        }
+        
+        @media (max-width: 639px) {
+          .certificates-header {
+            flex-direction: column;
+            align-items: stretch;
+          }
+          
+          .certificates-header h2 {
+            text-align: center;
+          }
+        }
+      `}</style>
     </div>
   );
 }

@@ -54,22 +54,22 @@ function Register() {
         alignItems: 'center', 
         justifyContent: 'center',
         minHeight: 'calc(100vh - 80px)',
-        padding: '40px 20px'
+        padding: '20px 16px'
       }}>
         <div className="card fade-in" style={{ width: '100%', maxWidth: '400px' }}>
           <div className="text-center mb-6">
             <span className="material-icons" style={{ 
-              fontSize: '48px', 
+              fontSize: '36px', 
               color: '#3B82F6',
-              marginBottom: '16px',
+              marginBottom: '12px',
               display: 'block'
             }}>
               person_add
             </span>
-            <h2 style={{ fontSize: '28px', fontWeight: '700', marginBottom: '8px' }}>
+            <h2 style={{ fontSize: '24px', fontWeight: '700', marginBottom: '6px' }}>
               Create Account
             </h2>
-            <p style={{ color: '#6B7280' }}>
+            <p style={{ color: '#6B7280', fontSize: '14px' }}>
               Join CredHex to securely manage your certificates
             </p>
           </div>
@@ -81,8 +81,8 @@ function Register() {
               color: '#DC2626',
               padding: '12px',
               borderRadius: '8px',
-              marginBottom: '20px',
-              fontSize: '14px'
+              marginBottom: '16px',
+              fontSize: '13px'
             }}>
               {error}
             </div>
@@ -148,7 +148,7 @@ function Register() {
           </form>
 
           <div className="text-center mt-4">
-            <p style={{ color: '#6B7280', fontSize: '14px' }}>
+            <p style={{ color: '#6B7280', fontSize: '13px' }}>
               Already have an account?{' '}
               <a 
                 href="/login" 
@@ -164,6 +164,36 @@ function Register() {
           </div>
         </div>
       </div>
+      
+      <style jsx>{`
+        @media (min-width: 640px) {
+          .container {
+            padding: 40px 20px !important;
+          }
+          
+          .material-icons {
+            font-size: 48px !important;
+            margin-bottom: 16px !important;
+          }
+          
+          h2 {
+            font-size: 28px !important;
+            margin-bottom: 8px !important;
+          }
+          
+          p {
+            font-size: 16px !important;
+          }
+          
+          .form-group:last-of-type p {
+            font-size: 14px !important;
+          }
+          
+          div[style*="font-size: 13px"] {
+            font-size: 14px !important;
+          }
+        }
+      `}</style>
     </div>
   );
 }
