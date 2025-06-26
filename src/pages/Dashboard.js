@@ -159,150 +159,151 @@ function Dashboard() {
   }
 
   return (
-    <div style={{ minHeight: '100vh' }}>
-      <Header user={user} onLogout={handleLogout} />
-      
-      <div className="container dashboard-container" style={{ padding: '20px 16px' }}>
-        <div className="fade-in">
-          <div style={{ marginBottom: '24px' }}>
-            <h1 style={{ 
-              fontSize: '24px', 
-              fontWeight: '700', 
-              marginBottom: '6px',
-              background: 'linear-gradient(135deg, #3B82F6, #1D4ED8)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent'
-            }}>
-              Certificate Vault
-            </h1>
-            <p style={{ color: '#6B7280', fontSize: '14px' }}>
-              Securely store and manage your digital certificates
-            </p>
-          </div>
-
-          <UploadZone onUpload={handleUpload} isUploading={isUploading} />
-
-          <div className="card" style={{ marginTop: '24px' }}>
-            <div className="certificates-header" style={{ 
-              display: 'flex', 
-              justifyContent: 'space-between', 
-              alignItems: 'center',
-              marginBottom: '20px',
-              flexWrap: 'wrap',
-              gap: '12px'
-            }}>
-              <h2 style={{ 
-                fontSize: '18px', 
-                fontWeight: '600',
-                margin: 0
-              }}>
-                Your Certificates ({filteredCertificates.length})
-              </h2>
-              
-              <div style={{ position: 'relative', width: '100%', maxWidth: '250px' }}>
-                <span className="material-icons" style={{
-                  position: 'absolute',
-                  left: '12px',
-                  top: '50%',
-                  transform: 'translateY(-50%)',
-                  color: '#9CA3AF',
-                  fontSize: '18px'
-                }}>
-                  search
-                </span>
-                <input
-                  type="text"
-                  className="input"
-                  placeholder="Search certificates..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  style={{ paddingLeft: '40px', fontSize: '14px' }}
-                />
-              </div>
-            </div>
-
-            {filteredCertificates.length === 0 ? (
-              <div style={{ 
-                textAlign: 'center', 
-                padding: '40px 20px',
-                color: '#6B7280'
-              }}>
-                <span className="material-icons" style={{ 
-                  fontSize: '48px', 
-                  color: '#D1D5DB',
-                  marginBottom: '12px',
-                  display: 'block'
-                }}>
-                  {searchTerm ? 'search_off' : 'folder_open'}
-                </span>
-                <h3 style={{ fontSize: '16px', fontWeight: '500', marginBottom: '6px' }}>
-                  {searchTerm ? 'No certificates found' : 'No certificates yet'}
-                </h3>
-                <p style={{ fontSize: '14px' }}>
-                  {searchTerm 
-                    ? 'Try adjusting your search terms'
-                    : 'Upload your first certificate to get started'
-                  }
-                </p>
-              </div>
-            ) : (
-              <div className="grid grid-cols-1">
-                {filteredCertificates.map((cert) => (
-                  <CertificateCard
-                    key={cert.name}
-                    certificate={cert}
-                    userId={user.id}
-                    onDelete={handleDelete}
-                  />
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-      
-      <style jsx>{`
+    <>
+      <style>{`
         @media (min-width: 640px) {
           .dashboard-container {
             padding: 40px 20px !important;
           }
           
-          h1 {
+          .dashboard-container h1 {
             font-size: 32px !important;
             margin-bottom: 8px !important;
           }
           
-          p {
+          .dashboard-container p {
             font-size: 16px !important;
           }
           
-          h2 {
+          .dashboard-container h2 {
             font-size: 20px !important;
           }
           
-          .certificates-header {
+          .dashboard-container .certificates-header {
             margin-bottom: 24px !important;
             gap: 16px !important;
           }
           
-          .certificates-header > div {
+          .dashboard-container .certificates-header > div {
             width: auto !important;
             min-width: 250px;
           }
         }
         
         @media (max-width: 639px) {
-          .certificates-header {
+          .dashboard-container .certificates-header {
             flex-direction: column;
             align-items: stretch;
           }
           
-          .certificates-header h2 {
+          .dashboard-container .certificates-header h2 {
             text-align: center;
           }
         }
       `}</style>
-    </div>
+      <div style={{ minHeight: '100vh' }}>
+        <Header user={user} onLogout={handleLogout} />
+        
+        <div className="container dashboard-container" style={{ padding: '20px 16px' }}>
+          <div className="fade-in">
+            <div style={{ marginBottom: '24px' }}>
+              <h1 style={{ 
+                fontSize: '24px', 
+                fontWeight: '700', 
+                marginBottom: '6px',
+                background: 'linear-gradient(135deg, #3B82F6, #1D4ED8)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent'
+              }}>
+                Certificate Vault
+              </h1>
+              <p style={{ color: '#6B7280', fontSize: '14px' }}>
+                Securely store and manage your digital certificates
+              </p>
+            </div>
+
+            <UploadZone onUpload={handleUpload} isUploading={isUploading} />
+
+            <div className="card" style={{ marginTop: '24px' }}>
+              <div className="certificates-header" style={{ 
+                display: 'flex', 
+                justifyContent: 'space-between', 
+                alignItems: 'center',
+                marginBottom: '20px',
+                flexWrap: 'wrap',
+                gap: '12px'
+              }}>
+                <h2 style={{ 
+                  fontSize: '18px', 
+                  fontWeight: '600',
+                  margin: 0
+                }}>
+                  Your Certificates ({filteredCertificates.length})
+                </h2>
+                
+                <div style={{ position: 'relative', width: '100%', maxWidth: '250px' }}>
+                  <span className="material-icons" style={{
+                    position: 'absolute',
+                    left: '12px',
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    color: '#9CA3AF',
+                    fontSize: '18px'
+                  }}>
+                    search
+                  </span>
+                  <input
+                    type="text"
+                    className="input"
+                    placeholder="Search certificates..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    style={{ paddingLeft: '40px', fontSize: '14px' }}
+                  />
+                </div>
+              </div>
+
+              {filteredCertificates.length === 0 ? (
+                <div style={{ 
+                  textAlign: 'center', 
+                  padding: '40px 20px',
+                  color: '#6B7280'
+                }}>
+                  <span className="material-icons" style={{ 
+                    fontSize: '48px', 
+                    color: '#D1D5DB',
+                    marginBottom: '12px',
+                    display: 'block'
+                  }}>
+                    {searchTerm ? 'search_off' : 'folder_open'}
+                  </span>
+                  <h3 style={{ fontSize: '16px', fontWeight: '500', marginBottom: '6px' }}>
+                    {searchTerm ? 'No certificates found' : 'No certificates yet'}
+                  </h3>
+                  <p style={{ fontSize: '14px' }}>
+                    {searchTerm 
+                      ? 'Try adjusting your search terms'
+                      : 'Upload your first certificate to get started'
+                    }
+                  </p>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1">
+                  {filteredCertificates.map((cert) => (
+                    <CertificateCard
+                      key={cert.name}
+                      certificate={cert}
+                      userId={user.id}
+                      onDelete={handleDelete}
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
   );
 }
 
