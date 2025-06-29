@@ -113,7 +113,7 @@ function Dashboard() {
   useEffect(() => {
     const getUserAndData = async () => {
       try {
-        const { data, error } = await supabase.auth.getUser();
+        const { data } = await supabase.auth.getUser();
         if (data?.user) {
           setUser(data.user);
           await fetchCertificates(data.user.id);
