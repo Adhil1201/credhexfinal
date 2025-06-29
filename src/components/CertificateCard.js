@@ -36,9 +36,143 @@ function CertificateCard({ certificate, userId, onDelete }) {
 
   const certificateUrl = `https://broseasswahrbiglvplk.supabase.co/storage/v1/object/public/certificates/${userId}/${certificate.name}`;
 
+  const handleDownload = async (e) => {
+    e.stopPropagation();
+    
+    try {
+      // Show download animation
+      const button = e.currentTarget;
+      const originalContent = button.innerHTML;
+      button.innerHTML = '<span class="material-icons downloading-icon">download</span><span>Downloading...</span>';
+      button.disabled = true;
+      
+      // Fetch the file
+      const response = await fetch(certificateUrl);
+      if (!response.ok) throw new Error('Download failed');
+      
+      const blob = await response.blob();
+      
+      // Create download link
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = certificate.name;
+      document.body.appendChild(link);
+      link.click();
+      
+      // Cleanup
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+      
+      // Show success state
+      button.innerHTML = '<span class="material-icons">check_circle</span><span>Downloaded!</span>';
+      
+      // Reset button after 2 seconds
+      setTimeout(() => {
+        button.innerHTML = originalContent;
+        button.disabled = false;
+      }, 2000);
+      
+    } catch (error) {
+      console.error('Download failed:', error);
+      alert('Download failed. Please try again.');
+      
+      // Reset button on error
+      const button = e.currentTarget;
+      button.innerHTML = '<span class="material-icons">download</span><span>Download</span>';
+      button.disabled = false;
+    }
+  };
+
   return (
     <>
       <style>{`
+        @keyframes slideInUp {
+          from {
+            opacity: 0;
+            transform: translateY(30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        
+        @keyframes pulse {
+          0%, 100% {
+            transform: scale(1);
+          }
+          50% {
+            transform: scale(1.05);
+          }
+        }
+        
+        @keyframes bounce {
+          0%, 20%, 50%, 80%, 100% {
+            transform: translateY(0);
+          }
+          40% {
+            transform: translateY(-10px);
+          }
+          60% {
+            transform: translateY(-5px);
+          }
+        }
+        
+        @keyframes rotate {
+          from {
+            transform: rotate(0deg);
+          }
+          to {
+            transform: rotate(360deg);
+          }
+        }
+        
+        @keyframes fadeInScale {
+          from {
+            opacity: 0;
+            transform: scale(0.8);
+          }
+          to {
+            opacity: 1;
+            transform: scale(1);
+          }
+        }
+        
+        .certificate-card {
+          animation: slideInUp 0.6s ease-out;
+        }
+        
+        .certificate-card:nth-child(even) {
+          animation-delay: 0.1s;
+        }
+        
+        .certificate-card:nth-child(odd) {
+          animation-delay: 0.2s;
+        }
+        
+        .downloading-icon {
+          animation: rotate 1s linear infinite;
+        }
+        
+        .certificate-title {
+          animation: fadeInScale 0.8s ease-out;
+          animation-delay: 0.3s;
+          animation-fill-mode: both;
+        }
+        
+        .certificate-meta {
+          animation: fadeInScale 0.8s ease-out;
+          animation-delay: 0.4s;
+          animation-fill-mode: both;
+        }
+        
+        .certificate-actions {
+          animation: fadeInScale 0.8s ease-out;
+          animation-delay: 0.5s;
+          animation-fill-mode: both;
+        }
+        
         @media (min-width: 640px) {
           .certificate-card {
             padding: 20px !important;
@@ -86,6 +220,10 @@ function CertificateCard({ certificate, userId, onDelete }) {
           box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
         }
         
+        .certificate-card:hover .certificate-title {
+          animation: pulse 0.6s ease-in-out;
+        }
+        
         @media (max-width: 639px) {
           .certificate-card .btn-group {
             flex-direction: column;
@@ -94,6 +232,14 @@ function CertificateCard({ certificate, userId, onDelete }) {
           .certificate-card .btn-group .btn {
             width: 100%;
           }
+        }
+        
+        .btn:hover .material-icons {
+          animation: bounce 0.6s ease-in-out;
+        }
+        
+        .btn:active {
+          transform: scale(0.95);
         }
       `}</style>
       <div className="card fade-in certificate-card" style={{
@@ -130,7 +276,7 @@ function CertificateCard({ certificate, userId, onDelete }) {
             </div>
             
             <div style={{ flex: 1, minWidth: 0 }}>
-              <h3 style={{ 
+              <h3 className="certificate-title" style={{ 
                 fontSize: '14px', 
                 fontWeight: '600', 
                 marginBottom: '4px',
@@ -140,7 +286,7 @@ function CertificateCard({ certificate, userId, onDelete }) {
                 {certificate.name}
               </h3>
               
-              <div style={{ 
+              <div className="certificate-meta" style={{ 
                 display: 'flex', 
                 gap: '12px', 
                 marginBottom: '8px',
@@ -162,7 +308,7 @@ function CertificateCard({ certificate, userId, onDelete }) {
             </div>
           </div>
           
-          <div className="btn-group" style={{ 
+          <div className="btn-group certificate-actions" style={{ 
             display: 'flex', 
             gap: '6px', 
             width: '100%',
@@ -185,9 +331,8 @@ function CertificateCard({ certificate, userId, onDelete }) {
               <span>View</span>
             </a>
             
-            <a
-              href={certificateUrl}
-              download={certificate.name}
+            <button
+              onClick={handleDownload}
               className="btn btn-secondary"
               style={{ 
                 fontSize: '11px', 
@@ -195,11 +340,10 @@ function CertificateCard({ certificate, userId, onDelete }) {
                 flex: '1',
                 minWidth: '80px'
               }}
-              onClick={(e) => e.stopPropagation()}
             >
               <span className="material-icons" style={{ fontSize: '14px' }}>download</span>
               <span>Download</span>
-            </a>
+            </button>
             
             {onDelete && (
               <button

@@ -142,7 +142,7 @@ function Dashboard() {
           padding: '20px'
         }}>
           <div style={{ textAlign: 'center' }}>
-            <span className="material-icons" style={{ 
+            <span className="material-icons loading-spinner" style={{ 
               fontSize: '36px', 
               color: '#3B82F6',
               marginBottom: '12px',
@@ -151,7 +151,7 @@ function Dashboard() {
             }}>
               hourglass_empty
             </span>
-            <p style={{ color: '#6B7280', fontSize: '14px' }}>Loading your certificates...</p>
+            <p className="loading-text" style={{ color: '#6B7280', fontSize: '14px' }}>Loading your certificates...</p>
           </div>
         </div>
       </div>
@@ -161,6 +161,100 @@ function Dashboard() {
   return (
     <>
       <style>{`
+        @keyframes typewriter {
+          from {
+            width: 0;
+          }
+          to {
+            width: 100%;
+          }
+        }
+        
+        @keyframes blink {
+          0%, 50% {
+            border-color: transparent;
+          }
+          51%, 100% {
+            border-color: #3B82F6;
+          }
+        }
+        
+        @keyframes slideInLeft {
+          from {
+            opacity: 0;
+            transform: translateX(-30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+        
+        @keyframes slideInRight {
+          from {
+            opacity: 0;
+            transform: translateX(30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+        
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        
+        @keyframes glow {
+          0%, 100% {
+            text-shadow: 0 0 5px rgba(59, 130, 246, 0.3);
+          }
+          50% {
+            text-shadow: 0 0 20px rgba(59, 130, 246, 0.6), 0 0 30px rgba(59, 130, 246, 0.4);
+          }
+        }
+        
+        .animated-title {
+          animation: slideInLeft 0.8s ease-out, glow 2s ease-in-out infinite;
+        }
+        
+        .animated-subtitle {
+          animation: slideInRight 0.8s ease-out;
+          animation-delay: 0.2s;
+          animation-fill-mode: both;
+        }
+        
+        .certificates-header h2 {
+          animation: fadeInUp 0.6s ease-out;
+          animation-delay: 0.3s;
+          animation-fill-mode: both;
+        }
+        
+        .search-container {
+          animation: fadeInUp 0.6s ease-out;
+          animation-delay: 0.4s;
+          animation-fill-mode: both;
+        }
+        
+        .loading-text {
+          animation: typewriter 2s steps(30) infinite, blink 1s step-end infinite;
+          border-right: 2px solid #3B82F6;
+          white-space: nowrap;
+          overflow: hidden;
+          display: inline-block;
+        }
+        
+        .loading-spinner {
+          animation: spin 1s linear infinite !important;
+        }
+        
         @media (min-width: 640px) {
           .dashboard-container {
             padding: 40px 20px !important;
@@ -207,7 +301,7 @@ function Dashboard() {
         <div className="container dashboard-container" style={{ padding: '20px 16px' }}>
           <div className="fade-in">
             <div style={{ marginBottom: '24px' }}>
-              <h1 style={{ 
+              <h1 className="animated-title" style={{ 
                 fontSize: '24px', 
                 fontWeight: '700', 
                 marginBottom: '6px',
@@ -217,7 +311,7 @@ function Dashboard() {
               }}>
                 Certificate Vault
               </h1>
-              <p style={{ color: '#6B7280', fontSize: '14px' }}>
+              <p className="animated-subtitle" style={{ color: '#6B7280', fontSize: '14px' }}>
                 Securely store and manage your digital certificates
               </p>
             </div>
@@ -241,7 +335,7 @@ function Dashboard() {
                   Your Certificates ({filteredCertificates.length})
                 </h2>
                 
-                <div style={{ position: 'relative', width: '100%', maxWidth: '250px' }}>
+                <div className="search-container" style={{ position: 'relative', width: '100%', maxWidth: '250px' }}>
                   <span className="material-icons" style={{
                     position: 'absolute',
                     left: '12px',
@@ -289,12 +383,13 @@ function Dashboard() {
                 </div>
               ) : (
                 <div className="grid grid-cols-1">
-                  {filteredCertificates.map((cert) => (
+                  {filteredCertificates.map((cert, index) => (
                     <CertificateCard
                       key={cert.name}
                       certificate={cert}
                       userId={user.id}
                       onDelete={handleDelete}
+                      style={{ animationDelay: `${index * 0.1}s` }}
                     />
                   ))}
                 </div>
