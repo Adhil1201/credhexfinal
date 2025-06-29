@@ -221,8 +221,28 @@ function Dashboard() {
           }
         }
         
+        @keyframes colorShift {
+          0% {
+            background-position: 0% 50%;
+          }
+          50% {
+            background-position: 100% 50%;
+          }
+          100% {
+            background-position: 0% 50%;
+          }
+        }
+        
         .animated-title {
           animation: slideInLeft 0.8s ease-out, glow 2s ease-in-out infinite;
+          background: linear-gradient(-45deg, #FF6B6B, #4ECDC4, #45B7D1, #96CEB4, #FFEAA7, #DDA0DD);
+          background-size: 400% 400%;
+          animation: slideInLeft 0.8s ease-out, colorShift 3s ease infinite;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          font-weight: 800;
+          text-shadow: none;
         }
         
         .animated-subtitle {
@@ -304,10 +324,7 @@ function Dashboard() {
               <h1 className="animated-title" style={{ 
                 fontSize: '24px', 
                 fontWeight: '700', 
-                marginBottom: '6px',
-                background: 'linear-gradient(135deg, #3B82F6, #1D4ED8)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent'
+                marginBottom: '6px'
               }}>
                 Certificate Vault
               </h1>
